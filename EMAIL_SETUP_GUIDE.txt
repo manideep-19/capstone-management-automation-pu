@@ -1,0 +1,155 @@
+================================================================================
+📧 EMAIL SETUP GUIDE - Send Real Emails to Gmail/Outlook
+================================================================================
+
+To send actual emails that arrive in Gmail, Outlook, or any email inbox, follow
+these steps to set up EmailJS (100% FREE, no credit card required):
+
+================================================================================
+STEP 1: Create EmailJS Account
+================================================================================
+1. Go to: https://www.emailjs.com/
+2. Click "Sign Up" (top right)
+3. Create a free account with your email
+4. Verify your email address
+
+================================================================================
+STEP 2: Add Email Service (Connect Your Email)
+================================================================================
+1. In EmailJS dashboard, go to "Email Services"
+2. Click "Add New Service"
+3. Choose your email provider:
+   - Gmail (recommended)
+   - Outlook/Office 365
+   - Yahoo
+   - Or any other provider
+
+4. For Gmail:
+   - Click "Connect Account"
+   - Sign in with your Google account
+   - Allow EmailJS to send emails on your behalf
+   - Name your service (e.g., "Capstone Emails")
+
+5. Save the SERVICE ID (e.g., "service_abc123")
+   You'll need this later!
+
+================================================================================
+STEP 3: Create Email Template
+================================================================================
+1. Go to "Email Templates" in EmailJS dashboard
+2. Click "Create New Template"
+3. Set up the template:
+
+   Template Name: Team Invitation
+
+   Subject Line:
+   🎓 You're Invited to Join Team: {{team_name}}
+
+   Email Body (Copy this):
+   -------------------------------------------------------------------
+   Hi {{to_name}},
+
+   {{from_name}} has invited you to join their capstone project team!
+
+   Team Details:
+   - Team Name: {{team_name}}
+   - Team Number: {{team_number}}
+   - Team Leader: {{from_name}}
+
+   Click the link below to accept or decline this invitation:
+   {{invitation_link}}
+
+   Best regards,
+   Capstone Project Management System
+   -------------------------------------------------------------------
+
+4. Click "Save"
+5. Copy the TEMPLATE ID (e.g., "template_xyz789")
+   You'll need this later!
+
+================================================================================
+STEP 4: Get Your Public Key
+================================================================================
+1. Go to "Account" → "General" (or API Keys)
+2. Find your PUBLIC KEY (e.g., "user_abcd1234")
+3. Copy it - you'll need this!
+
+================================================================================
+STEP 5: Update the Application
+================================================================================
+
+Option A: Update emailConfig.ts file
+-------------------------------------
+Open: src/lib/emailConfig.ts
+
+Replace these values:
+    serviceId: 'YOUR_SERVICE_ID_HERE',     // From Step 2
+    templateId: 'YOUR_TEMPLATE_ID_HERE',   // From Step 3  
+    publicKey: 'YOUR_PUBLIC_KEY_HERE',     // From Step 4
+    enabled: true
+
+Option B: Use Environment Variables (Recommended)
+-------------------------------------------------
+Open: .env file (create if doesn't exist)
+
+Add these lines:
+VITE_EMAILJS_SERVICE_ID=your_service_id_here
+VITE_EMAILJS_TEMPLATE_ID=your_template_id_here
+VITE_EMAILJS_PUBLIC_KEY=your_public_key_here
+
+================================================================================
+STEP 6: Restart the Application
+================================================================================
+1. Stop the dev server (Ctrl+C in terminal)
+2. Run: npm run dev
+3. Open the application
+
+================================================================================
+STEP 7: Test Email Sending
+================================================================================
+1. Login as a student (team leader)
+2. Go to Team Management
+3. Click "Invite Member"
+4. Enter a REAL email address (your Gmail/Outlook)
+5. Click "Send Invitation"
+6. Check your inbox - email should arrive within seconds!
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+❌ Email not arriving?
+---------------------
+1. Check SPAM/Junk folder
+2. Wait 1-2 minutes (sometimes delayed)
+3. Verify your EmailJS credentials are correct
+4. Check EmailJS dashboard for sending errors
+5. Open browser console (F12) for error messages
+
+❌ "Invalid credentials" error?
+-------------------------------
+- Double-check Service ID, Template ID, and Public Key
+- Make sure there are no extra spaces
+- Verify EmailJS service is active (not paused)
+
+❌ EmailJS free limit reached?
+-----------------------------
+- Free tier: 200 emails/month
+- Upgrade to paid plan or create new account
+- Use your personal Gmail to send fewer emails
+
+================================================================================
+EXAMPLE CREDENTIALS (REPLACE WITH YOURS!)
+================================================================================
+serviceId: 'service_abc1234'      ← From Email Services
+templateId: 'template_xyz5678'    ← From Email Templates
+publicKey: 'user_def9101112'      ← From Account Settings
+
+================================================================================
+NEED HELP?
+================================================================================
+- EmailJS Documentation: https://www.emailjs.com/docs/
+- EmailJS Support: support@emailjs.com
+- Check browser console for detailed error messages
+
+================================================================================

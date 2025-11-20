@@ -1,0 +1,174 @@
+===========================================
+📧 EMAILJS TEMPLATE - FIXED VERSION (NO ERRORS)
+===========================================
+
+STEP 1: Go to https://www.emailjs.com/ → Email Templates → Create New Template
+
+STEP 2: Copy and paste this FIXED template:
+
+-------------------------------------------
+TEMPLATE NAME: Team Invitation
+-------------------------------------------
+
+SUBJECT LINE:
+🎓 Team Invitation - Team {{team_number}} | Capstone Project
+
+-------------------------------------------
+HTML CONTENT (paste this in the HTML editor):
+-------------------------------------------
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center; }
+    .header h1 { margin: 0 0 10px 0; font-size: 28px; }
+    .content { padding: 40px 30px; background: #f9f9f9; }
+    .info-box { background: #e3f2fd; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #2196f3; }
+    .button { display: inline-block; padding: 18px 45px; background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; margin: 20px 0; }
+    .footer { background: #f8f9fa; padding: 25px; text-align: center; color: #6c757d; font-size: 14px; }
+    .highlight { background: #fff3cd; padding: 20px; border-radius: 8px; margin: 25px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎓 You're Invited to Join a Team!</h1>
+      <p style="margin: 0; font-size: 18px;">Team Number: <strong>{{team_number}}</strong></p>
+    </div>
+    <div class="content">
+      <h2 style="color: #667eea; margin-bottom: 15px;">Hello {{to_name}}! 👋</h2>
+      <p style="font-size: 16px; color: #555; margin-bottom: 30px;"><strong>{{from_name}}</strong> has invited you to join their capstone project team!</p>
+      
+      <div class="info-box">
+        <h3 style="margin: 0 0 15px 0; color: #2196f3;">🏆 Team: {{team_name}}</h3>
+        <p style="margin: 8px 0;"><strong>🔢 Team Number:</strong> {{team_number}}</p>
+        <p style="margin: 8px 0;"><strong>👨‍💼 Team Leader:</strong> {{from_name}}</p>
+        <p style="margin: 8px 0;"><strong>📋 Project:</strong> {{project_name}}</p>
+        <p style="margin: 8px 0;"><strong>📧 Leader Email:</strong> {{team_leader_email}}</p>
+        <p style="margin: 8px 0;"><strong>🎓 Roll Number:</strong> {{team_leader_rollno}}</p>
+      </div>
+      
+      <div style="text-align: center; margin: 40px 0;">
+        <p style="font-size: 18px; margin-bottom: 20px;">Click the button below to view the invitation:</p>
+        <a href="{{invitation_link}}" class="button">✅ View Invitation</a>
+      </div>
+      
+      <div class="highlight">
+        <p style="margin: 0 0 10px 0; font-weight: 600;">🔑 What happens next?</p>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li>Click the button above to view the invitation</li>
+          <li>You can accept or decline the invitation</li>
+          <li>The team leader will be notified of your decision</li>
+        </ul>
+      </div>
+      
+      <p style="font-size: 14px; color: #666; margin-top: 30px; text-align: center;">
+        If the button doesn't work, copy and paste this link into your browser:
+      </p>
+      <p style="word-break: break-all; background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px; border: 1px solid #dee2e6; text-align: center;">
+        {{invitation_link}}
+      </p>
+      
+      <p style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin-top: 25px; font-size: 14px;">
+        <strong>⏰ Note:</strong> This invitation will expire in 7 days. Make your decision soon!
+      </p>
+    </div>
+    <div class="footer">
+      <p style="margin: 0 0 10px 0; font-weight: 600;">Capstone Project Management System</p>
+      <p style="margin: 0;">This is an automated message. If you have questions, contact your faculty advisor.</p>
+    </div>
+  </div>
+</body>
+</html>
+
+-------------------------------------------
+PLAIN TEXT CONTENT (paste this in the Plain Text editor):
+-------------------------------------------
+
+🎓 TEAM INVITATION - CAPSTONE PROJECT
+Team Number: {{team_number}}
+
+Hello {{to_name}}!
+
+{{from_name}} has invited you to join their capstone project team!
+
+TEAM DETAILS:
+🏆 Team: {{team_name}}
+🔢 Team Number: {{team_number}}
+👨‍💼 Team Leader: {{from_name}}
+📋 Project: {{project_name}}
+📧 Leader Email: {{team_leader_email}}
+🎓 Roll Number: {{team_leader_rollno}}
+
+To view and respond to this invitation, visit:
+{{invitation_link}}
+
+⏰ Note: This invitation will expire in 7 days.
+
+Best regards,
+Capstone Project Management System
+
+-------------------------------------------
+REQUIRED VARIABLES (these MUST be in your template):
+-------------------------------------------
+
+{{to_name}} - Recipient's name
+{{to_email}} - Recipient's email (for EmailJS service, not shown in template)
+{{from_name}} - Sender's name
+{{team_name}} - Team name
+{{team_number}} - Team number
+{{invitation_link}} - Invitation link (MOST IMPORTANT!)
+{{project_name}} - Project name
+{{team_leader_email}} - Team leader email
+{{team_leader_rollno}} - Team leader roll number
+
+IMPORTANT: 
+- All variables are sent from the code, so they will always have values
+- Don't use {{#if}} conditionals - just use the variables directly
+- Variable names are case-sensitive and use underscores
+
+-------------------------------------------
+STEP 3: After saving, copy the TEMPLATE ID
+-------------------------------------------
+
+After you save the template, you'll see a Template ID like:
+template_abc123xyz
+
+Copy that ID!
+
+-------------------------------------------
+STEP 4: Get your PUBLIC KEY
+-------------------------------------------
+
+1. Click on your profile icon (top right)
+2. Go to "Account" → "General"
+3. Find "Public Key" (might be called "User ID")
+4. Copy it - looks like: user_abc123xyz
+
+-------------------------------------------
+STEP 5: Update emailConfig.ts
+-------------------------------------------
+
+Open: src/lib/emailConfig.ts
+
+Replace:
+templateId: 'template_8h5x8yq',  ← Your Template ID here
+publicKey: 'LxVqGdVK9IvL-TA1n',  ← Your Public Key here
+
+With your actual values!
+
+===========================================
+KEY FIXES IN THIS VERSION:
+===========================================
+
+1. ✅ Removed {{#if}} conditionals - they cause errors if variables are empty
+2. ✅ All variables are displayed directly - code always sends values
+3. ✅ Simplified template structure - no complex logic
+4. ✅ All variable names match exactly what code sends
+
+===========================================
+

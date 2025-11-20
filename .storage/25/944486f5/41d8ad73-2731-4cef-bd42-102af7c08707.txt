@@ -1,0 +1,64 @@
+$ cd /workspace/shadcn-ui
+$ pnpm i && pnpm run lint && pnpm run build
+
+Lockfile is up to date, resolution step is skipped
+Packages: +427
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.../node_modules/@swc/core postinstall$ node postinstall.js
+.../node_modules/@swc/core postinstall: Done
+.../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.25.8/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.21.5/node_modules/esbuild postinstall: Done
+.../esbuild@0.25.8/node_modules/esbuild postinstall: Done
+
+Done in 5s
+
+> shadcnui@ lint /workspace/shadcn-ui
+> eslint --quiet ./src
+
+
+/workspace/shadcn-ui/src/lib/mockData.ts
+  124:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 2 problems (2 errors, 0 warnings)
+
+ ELIFECYCLE  Command failed with exit code 1.
+$ pnpm run lint && pnpm run build
+
+
+> shadcnui@ lint /workspace/shadcn-ui
+> eslint --quiet ./src
+
+
+> shadcnui@ build /workspace/shadcn-ui
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+✓ 1732 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   1.00 kB │ gzip:   0.47 kB
+dist/assets/index-BJJBmQU4.css   62.46 kB │ gzip:  10.87 kB
+dist/assets/index-Co1m9Xm-.js   438.03 kB │ gzip: 134.15 kB
+✓ built in 4.70s
+$ pnpm run lint && pnpm run build
+
+
+> shadcnui@ lint /workspace/shadcn-ui
+> eslint --quiet ./src
+
+
+> shadcnui@ build /workspace/shadcn-ui
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+✓ 1732 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   1.00 kB │ gzip:   0.47 kB
+dist/assets/index-CZ9BWJgw.css   62.58 kB │ gzip:  10.89 kB
+dist/assets/index-DP6ADUFr.js   439.28 kB │ gzip: 134.56 kB
+✓ built in 5.60s
