@@ -5,10 +5,11 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [searchParams] = useSearchParams();
+  const [email, setEmail] = useState(searchParams.get('email') || '');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login, isLoading } = useAuth();
@@ -92,7 +93,7 @@ export const LoginForm: React.FC = () => {
           <div className="mt-4 text-center">
             <Button
               variant="link"
-              onClick={() => navigate('/signup')}
+              onClick={() => navigate(`/signup${email ? `?email=${encodeURIComponent(email)}` : ''}`)}
               className="text-sm"
             >
               New student? Create account

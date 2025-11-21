@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -6,13 +6,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuth } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { UserRole } from '@/types/user';
 
 export const SignupForm: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const initialEmail = searchParams.get('email') || '';
+
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
+    email: initialEmail,
     rollNo: '',
     password: '',
     confirmPassword: '',
@@ -38,6 +41,14 @@ export const SignupForm: React.FC = () => {
     const match = lowerEmail.match(/^[a-z]+\.([a-z0-9]+)@presidencyuniversity\.in$/);
     return match ? match[1].toUpperCase() : ''; // Return in uppercase to match original format
   };
+
+  // Initialize roll number if email is present on mount
+  useEffect(() => {
+    if (initialEmail && formData.role === 'student' && validateStudentEmail(initialEmail)) {
+      const rollNo = extractRollNumberFromEmail(initialEmail);
+      setFormData(prev => ({ ...prev, rollNo }));
+    }
+  }, [initialEmail]);
 
   const handleEmailChange = (email: string) => {
     setFormData({ ...formData, email });
@@ -110,14 +121,7 @@ export const SignupForm: React.FC = () => {
           // Don't navigate here - let PublicRoute handle it
         } else {
           console.log('Showing success message for non-admin');
-          setSuccess(`Account created successfully! 
-
-Next steps:
-1. Check your email for verification link
-2. Wait for admin approval
-3. Once approved, you can log in
-
-Please contact the administrator if you don't receive approval within 24 hours.`);
+          setSuccess(`Account created successfully! \n\nNext steps:\n1. Check your email for verification link\n2. Wait for admin approval\n3. Once approved, you can log in\n\nPlease contact the administrator if you don't receive approval within 24 hours.`);
         }
       } else {
         console.log('Signup returned false');
@@ -135,7 +139,7 @@ Please contact the administrator if you don't receive approval within 24 hours.`
       } else if (error.code === 'auth/operation-not-allowed') {
         setError('Email/password accounts are not enabled. Please contact support.');
       } else if (error.code === 'auth/network-request-failed') {
-        setError('Network error. Please check your internet connection and try again.');
+        setError('Network error. Please check your internet connection.');
       } else {
         setError(error?.message || 'Failed to create account. Please try again.');
       }

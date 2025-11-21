@@ -183,10 +183,19 @@ const InvitationPage: React.FC = () => {
                             </AlertDescription>
                         </Alert>
                         <div className="space-y-2">
-                            <Button onClick={() => navigate('/login')} className="w-full" size="lg">
+                            <Button
+                                onClick={() => navigate(`/login${invitation?.invitedUserEmail ? `?email=${encodeURIComponent(invitation.invitedUserEmail)}` : ''}`)}
+                                className="w-full"
+                                size="lg"
+                            >
                                 ✅ Login to Your Account
                             </Button>
-                            <Button onClick={() => navigate('/signup')} variant="outline" className="w-full" size="lg">
+                            <Button
+                                onClick={() => navigate(`/signup${invitation?.invitedUserEmail ? `?email=${encodeURIComponent(invitation.invitedUserEmail)}` : ''}`)}
+                                variant="outline"
+                                className="w-full"
+                                size="lg"
+                            >
                                 🆕 Create New Account
                             </Button>
                         </div>
