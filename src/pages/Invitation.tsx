@@ -42,11 +42,12 @@ const InvitationPage: React.FC = () => {
                 if (inv) {
                     setInvitation(inv);
                 } else {
-                    setError('Invitation not found or has expired');
+                    // Don't set error immediately, as it might be a permission issue requiring login
+                    console.log('Invitation not found or permission denied');
                 }
             } catch (err) {
-                setError('Failed to load invitation details');
                 console.error('Error loading invitation:', err);
+                // Don't set error string to allow login screen to show
             } finally {
                 setIsLoading(false);
             }
@@ -141,34 +142,14 @@ const InvitationPage: React.FC = () => {
         );
     }
 
-    if (error || !invitation) {
-        return (
-            <div className="min-h-screen flex items-center justify-center p-4">
-                <Card className="w-full max-w-md">
-                    <CardHeader>
-                        <CardTitle className="text-center text-red-600">Invalid Invitation</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-center space-y-4">
-                        <Alert variant="destructive">
-                            <AlertDescription>{error || 'This invitation is not valid or has expired.'}</AlertDescription>
-                        </Alert>
-                        <Button onClick={() => navigate('/dashboard')} className="w-full">
-                            Go to Dashboard
-                        </Button>
-                    </CardContent>
-                </Card>
-            </div>
-        );
-    }
-
     // Store return URL when user is not logged in
     useEffect(() => {
-        if (!user && !isLoading && invitation) {
+        if (!user && !isLoading) {
             const returnUrl = `/invitation/${teamId}/${invitationId}${action ? `?action=${action}` : ''}`;
             console.log('💾 Storing return URL:', returnUrl);
             sessionStorage.setItem('returnUrl', returnUrl);
         }
-    }, [user, isLoading, invitation, teamId, invitationId, action]);
+    }, [user, isLoading, teamId, invitationId, action]);
 
     if (!user) {
         return (
@@ -183,8 +164,17 @@ const InvitationPage: React.FC = () => {
                     <CardContent className="space-y-4">
                         <Alert className="bg-blue-50 border-blue-200">
                             <AlertDescription className="text-blue-800">
-                                <strong>🎓 Team Invitation from {invitation?.inviterName || 'a team'}</strong>
-                                <p className="mt-2">If you don't have an account, you'll create one first. Then you can accept or decline this invitation.</p>
+                                {invitation ? (
+                                    <>
+                                        <strong>🎓 Team Invitation from {invitation.inviterName}</strong>
+                                        <p className="mt-2">If you don't have an account, you'll create one first. Then you can accept or decline this invitation.</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <strong>🎓 You have been invited to join a team</strong>
+                                        <p className="mt-2">Please login or create an account to view the invitation details and respond.</p>
+                                    </>
+                                )}
                             </AlertDescription>
                         </Alert>
                         <div className="space-y-2">
@@ -204,6 +194,26 @@ const InvitationPage: React.FC = () => {
                                 🆕 Create New Account
                             </Button>
                         </div>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    if (error || !invitation) {
+        return (
+            <div className="min-h-screen flex items-center justify-center p-4">
+                <Card className="w-full max-w-md">
+                    <CardHeader>
+                        <CardTitle className="text-center text-red-600">Invalid Invitation</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center space-y-4">
+                        <Alert variant="destructive">
+                            <AlertDescription>{error || 'This invitation is not valid, has expired, or you do not have permission to view it.'}</AlertDescription>
+                        </Alert>
+                        <Button onClick={() => navigate('/dashboard')} className="w-full">
+                            Go to Dashboard
+                        </Button>
                     </CardContent>
                 </Card>
             </div>
