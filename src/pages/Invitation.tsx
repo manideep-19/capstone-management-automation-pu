@@ -161,11 +161,16 @@ const InvitationPage: React.FC = () => {
         );
     }
 
-    if (!user) {
-        // Store invitation link to redirect back after login/signup
-        const returnUrl = `/invitation/${teamId}/${invitationId}${action ? `?action=${action}` : ''}`;
-        sessionStorage.setItem('returnUrl', returnUrl);
+    // Store return URL when user is not logged in
+    useEffect(() => {
+        if (!user && !isLoading && invitation) {
+            const returnUrl = `/invitation/${teamId}/${invitationId}${action ? `?action=${action}` : ''}`;
+            console.log('💾 Storing return URL:', returnUrl);
+            sessionStorage.setItem('returnUrl', returnUrl);
+        }
+    }, [user, isLoading, invitation, teamId, invitationId, action]);
 
+    if (!user) {
         return (
             <div className="min-h-screen flex items-center justify-center p-4">
                 <Card className="w-full max-w-md">

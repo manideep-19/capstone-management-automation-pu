@@ -49,8 +49,22 @@ export const InvitationManager: React.FC<InvitationManagerProps> = ({
     useEffect(() => {
         if (team?.id) {
             loadTeamInvitations(team.id);
+
+            // Set up polling to refresh invitations every 10 seconds
+            const intervalId = setInterval(() => {
+                loadTeamInvitations(team.id);
+            }, 10000);
+
+            return () => clearInterval(intervalId);
         }
     }, [team?.id, loadTeamInvitations]);
+
+    const handleRefresh = () => {
+        if (team?.id) {
+            loadTeamInvitations(team.id);
+            toast.success('Invitations refreshed');
+        }
+    };
 
     const handleSendInvitation = async () => {
         if (!inviteEmail || !team || !user) return;
@@ -75,10 +89,10 @@ export const InvitationManager: React.FC<InvitationManagerProps> = ({
             invitedUserName = nameParts
                 .map(part => part.charAt(0).toUpperCase() + part.slice(1))
                 .join(' ') || 'Student';
-            
+
             // Create a temporary ID based on email for tracking
             invitedUserId = `email_${normalizedEmail.replace(/[^a-z0-9]/g, '_')}`;
-            
+
             console.log('📧 User not found in system, sending email-only invitation to:', normalizedEmail);
         } else {
             // Check if user is already a team member
@@ -129,14 +143,14 @@ export const InvitationManager: React.FC<InvitationManagerProps> = ({
             teamName: invitationData.teamName,
             teamNumber: invitationData.teamNumber
         });
-        
+
         const result = await sendInvitation(invitationData);
-        
+
         console.log('📤 Invitation Result:', result);
 
         if (result.success) {
             // Show detailed success message
-            const successMessage = invitedUser 
+            const successMessage = invitedUser
                 ? `✅ Invitation sent successfully! Email has been sent to ${invitedUser.name}`
                 : `✅ Invitation sent successfully! Email has been sent to ${normalizedEmail}. The student will receive an invitation email and can register to accept.`;
             toast.success(successMessage, { duration: 5000 });
@@ -297,53 +311,58 @@ export const InvitationManager: React.FC<InvitationManagerProps> = ({
                                         Manage invitations sent to potential team members
                                     </CardDescription>
                                 </div>
-                                {isTeamLeader && (
-                                    <Dialog open={isInviteDialogOpen} onOpenChange={setIsInviteDialogOpen}>
-                                        <DialogTrigger asChild>
-                                            <Button>
-                                                <UserPlus className="h-4 w-4 mr-2" />
-                                                Invite Member
-                                            </Button>
-                                        </DialogTrigger>
-                                        <DialogContent>
-                                            <DialogHeader>
-                                                <DialogTitle>Invite Team Member</DialogTitle>
-                                                <DialogDescription>
-                                                    Send an invitation email to a student to join your team. The student doesn't need to be registered yet - they'll receive an email with an invitation link.
-                                                </DialogDescription>
-                                            </DialogHeader>
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <Label htmlFor="inviteEmail">Student Email</Label>
-                                                    <Input
-                                                        id="inviteEmail"
-                                                        type="email"
-                                                        value={inviteEmail}
-                                                        onChange={(e) => setInviteEmail(e.target.value)}
-                                                        placeholder="Enter student email (e.g., student.rollno@presidencyuniversity.in)"
-                                                    />
-                                                    <p className="text-xs text-muted-foreground mt-1">
-                                                        An invitation email will be sent to this address. The student can register and accept the invitation.
-                                                    </p>
+                                <div className="flex gap-2">
+                                    <Button variant="outline" size="icon" onClick={handleRefresh} title="Refresh Invitations">
+                                        <Clock className="h-4 w-4" />
+                                    </Button>
+                                    {isTeamLeader && (
+                                        <Dialog open={isInviteDialogOpen} onOpenChange={setIsInviteDialogOpen}>
+                                            <DialogTrigger asChild>
+                                                <Button>
+                                                    <UserPlus className="h-4 w-4 mr-2" />
+                                                    Invite Member
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>Invite Team Member</DialogTitle>
+                                                    <DialogDescription>
+                                                        Send an invitation email to a student to join your team. The student doesn't need to be registered yet - they'll receive an email with an invitation link.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <div className="space-y-4">
+                                                    <div>
+                                                        <Label htmlFor="inviteEmail">Student Email</Label>
+                                                        <Input
+                                                            id="inviteEmail"
+                                                            type="email"
+                                                            value={inviteEmail}
+                                                            onChange={(e) => setInviteEmail(e.target.value)}
+                                                            placeholder="Enter student email (e.g., student.rollno@presidencyuniversity.in)"
+                                                        />
+                                                        <p className="text-xs text-muted-foreground mt-1">
+                                                            An invitation email will be sent to this address. The student can register and accept the invitation.
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex justify-end space-x-2">
+                                                        <Button
+                                                            variant="outline"
+                                                            onClick={() => setIsInviteDialogOpen(false)}
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                        <Button
+                                                            onClick={handleSendInvitation}
+                                                            disabled={!inviteEmail || isLoading}
+                                                        >
+                                                            {isLoading ? 'Sending...' : 'Send Invitation'}
+                                                        </Button>
+                                                    </div>
                                                 </div>
-                                                <div className="flex justify-end space-x-2">
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() => setIsInviteDialogOpen(false)}
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                    <Button
-                                                        onClick={handleSendInvitation}
-                                                        disabled={!inviteEmail || isLoading}
-                                                    >
-                                                        {isLoading ? 'Sending...' : 'Send Invitation'}
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </DialogContent>
-                                    </Dialog>
-                                )}
+                                            </DialogContent>
+                                        </Dialog>
+                                    )}
+                                </div>
                             </div>
                         </CardHeader>
                         <CardContent>
