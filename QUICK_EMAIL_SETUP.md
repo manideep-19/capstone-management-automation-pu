@@ -116,6 +116,10 @@ VITE_EMAILJS_PUBLIC_KEY=your_public_key
 - Check browser notification settings
 - Try refreshing the page
 
+### ☁️ Vercel Deployment Issues:
+- If emails work locally but fail on Vercel, you are missing Environment Variables.
+- See **[VERCEL_EMAIL_FIX.md](./VERCEL_EMAIL_FIX.md)** for step-by-step instructions.
+
 ## Demo Commands
 
 Open browser console and try:
